@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171b22"/>
+      <stop offset="0.6" stop-color="#1d1a1c"/>
+      <stop offset="1" stop-color="#3a1d12"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.95" r="0.6">
+      <stop offset="0" stop-color="#ff6b3d" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ff6b3d" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a5c"/>
+      <stop offset="1" stop-color="#e5531f"/>
+    </linearGradient>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9dce1"/>
+      <stop offset="1" stop-color="#8d939c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="600" fill="url(#bg)"/>
+  <rect width="1200" height="600" fill="url(#glow)"/>
+  <path d="M0 520 C 250 450, 450 560, 700 500 S 1050 420, 1200 470 L1200 600 L0 600 Z" fill="#ff6b3d" opacity="0.10"/>
+  <path d="M0 560 C 300 500, 520 590, 820 540 S 1100 500, 1200 520 L1200 600 L0 600 Z" fill="#ff6b3d" opacity="0.14"/>
+
+  <!-- Icon: monitor with code brackets -->
+  <g transform="translate(100 130)" fill="none" stroke="#ff6b3d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="0" y="0" width="120" height="84" rx="12"/>
+    <path d="M44 28 L30 42 L44 56"/>
+    <path d="M76 28 L90 42 L76 56"/>
+    <path d="M40 104 L80 104"/>
+  </g>
+
+  <!-- Text -->
+  <text x="100" y="335" fill="#ffffff" font-size="104" font-weight="800" letter-spacing="-2">HRMS</text>
+  <text x="100" y="400" fill="#e6e8eb" font-size="36">Human Resource</text>
+  <text x="100" y="448" fill="#e6e8eb" font-size="36">Management System</text>
+
+  <!-- Laptop -->
+  <g transform="translate(610 95)">
+    <rect x="0" y="0" width="500" height="330" rx="18" fill="#2a2f38"/>
+    <rect x="6" y="6" width="488" height="318" rx="14" fill="none" stroke="#ff6b3d" stroke-width="3" opacity="0.9"/>
+    <rect x="18" y="18" width="464" height="294" rx="8" fill="#12161d"/>
+
+    <!-- Sidebar -->
+    <circle cx="44" cy="44" r="6" fill="#ff6b3d"/>
+    <text x="58" y="50" fill="#ffffff" font-size="16" font-weight="700">HRMS</text>
+    <g fill="#ff6b3d">
+      <circle cx="44" cy="92" r="5"/><circle cx="44" cy="126" r="5"/><circle cx="44" cy="160" r="5"/>
+      <circle cx="44" cy="194" r="5"/><circle cx="44" cy="228" r="5"/><circle cx="44" cy="262" r="5"/>
+    </g>
+    <g fill="#3a414c">
+      <rect x="60" y="88" width="46" height="8" rx="4" fill="#ff6b3d"/>
+      <rect x="60" y="122" width="40" height="8" rx="4"/><rect x="60" y="156" width="44" height="8" rx="4"/>
+      <rect x="60" y="190" width="36" height="8" rx="4"/><rect x="60" y="224" width="42" height="8" rx="4"/>
+      <rect x="60" y="258" width="38" height="8" rx="4"/>
+    </g>
+    <line x1="124" y1="30" x2="124" y2="300" stroke="#232933" stroke-width="2"/>
+
+    <!-- Top bar -->
+    <rect x="144" y="36" width="90" height="10" rx="5" fill="#3a414c"/>
+    <rect x="410" y="36" width="52" height="10" rx="5" fill="#3a414c"/>
+
+    <!-- Stat cards -->
+    <g>
+      <rect x="144" y="62" width="100" height="62" rx="8" fill="#1c222b"/>
+      <rect x="256" y="62" width="100" height="62" rx="8" fill="#1c222b"/>
+      <rect x="368" y="62" width="100" height="62" rx="8" fill="#1c222b"/>
+      <g fill="#59616d">
+        <rect x="156" y="78" width="60" height="8" rx="4"/><rect x="156" y="96" width="76" height="8" rx="4"/>
+        <rect x="268" y="78" width="60" height="8" rx="4"/><rect x="268" y="96" width="76" height="8" rx="4"/>
+        <rect x="380" y="78" width="60" height="8" rx="4"/><rect x="380" y="96" width="76" height="8" rx="4"/>
+      </g>
+    </g>
+
+    <!-- Chart -->
+    <rect x="144" y="138" width="212" height="160" rx="8" fill="#1c222b"/>
+    <line x1="160" y1="280" x2="342" y2="280" stroke="#3a414c" stroke-width="2"/>
+    <g fill="url(#bar)">
+      <rect x="168" y="248" width="18" height="32" rx="2"/>
+      <rect x="196" y="230" width="18" height="50" rx="2"/>
+      <rect x="224" y="214" width="18" height="66" rx="2"/>
+      <rect x="252" y="198" width="18" height="82" rx="2"/>
+      <rect x="280" y="222" width="18" height="58" rx="2"/>
+      <rect x="308" y="176" width="18" height="104" rx="2"/>
+    </g>
+
+    <!-- People list -->
+    <rect x="368" y="138" width="100" height="160" rx="8" fill="#1c222b"/>
+    <g fill="#59616d">
+      <circle cx="388" cy="166" r="9"/><rect x="404" y="162" width="50" height="8" rx="4"/>
+      <circle cx="388" cy="206" r="9"/><rect x="404" y="202" width="44" height="8" rx="4"/>
+      <circle cx="388" cy="246" r="9"/><rect x="404" y="242" width="48" height="8" rx="4"/>
+    </g>
+
+    <!-- Base -->
+    <path d="M-40 338 L540 338 L520 362 Q518 366 510 366 L-10 366 Q-18 366 -20 362 Z" fill="url(#base)"/>
+    <rect x="200" y="338" width="100" height="8" rx="4" fill="#6b717a"/>
+  </g>
+</svg>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO:START (made by tools/build.js, edit there) -->
+    <title>Automating repetitive work with small Python tools | Suraj Nahak</title>
+    <meta name="description" content="Some of the most useful code I&#39;ve written is under 50 lines. Why I keep writing small scripts for the boring parts of my work, and how I keep them safe to…">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Suraj Nahak">
+    <link rel="canonical" href="https://surajnahak.in/blog/python-automation-scripts.html">
+    <meta property="og:site_name" content="Suraj Nahak">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Automating repetitive work with small Python tools | Suraj Nahak">
+    <meta property="og:description" content="Some of the most useful code I&#39;ve written is under 50 lines. Why I keep writing small scripts for the boring parts of my work, and how I keep them safe to…">
+    <meta property="og:url" content="https://surajnahak.in/blog/python-automation-scripts.html">
+    <meta property="og:image" content="https://surajnahak.in/uploads/blog_images/demo-automating-repetitive-work-with-small-py.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Automating repetitive work with small Python tools | Suraj Nahak">
+    <meta name="twitter:description" content="Some of the most useful code I&#39;ve written is under 50 lines. Why I keep writing small scripts for the boring parts of my work, and how I keep them safe to…">
+    <meta name="twitter:image" content="https://surajnahak.in/uploads/blog_images/demo-automating-repetitive-work-with-small-py.png">
+    <meta property="article:published_time" content="2026-08-01">
+    <meta property="article:tag" content="Automation">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Tools">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Automating repetitive work with small Python tools","description":"Some of the most useful code I've written is under 50 lines. Why I keep writing small scripts for the boring parts of my work, and how I keep them safe to…","datePublished":"2026-08-01","dateModified":"2026-08-01","url":"https://surajnahak.in/blog/python-automation-scripts.html","mainEntityOfPage":"https://surajnahak.in/blog/python-automation-scripts.html","image":"https://surajnahak.in/uploads/blog_images/demo-automating-repetitive-work-with-small-py.png","articleSection":"Automation","keywords":"Automation, Python, Tools","wordCount":433,"author":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"},"publisher":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"}}</script>
+    <!-- SEO:END -->
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/blogs.css">
+    <!-- Site theme: loaded after the page stylesheet on every page so it wins -->
+    <link rel="stylesheet" href="css/theme-dark.css">
+</head>
+
+<body data-page="article">
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Suraj<span>Nahak</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#hero" class="nav-link">Home</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                    <li><a href="blogs.html" class="nav-link active">Blogs</a></li>
+                    <li><a href="research.html" class="nav-link">Research</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="close-menu-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="blog-hero">
+        <div class="container">
+            <div class="hero-content" id="detail-hero">
+                <span class="blog-category">Automation</span>
+                <h1>Automating repetitive work with small Python tools</h1>
+                <p><i class="far fa-calendar"></i> <time datetime="2026-08-01">August 01, 2026</time>
+                    &nbsp;&nbsp;
+                    <i class="fas fa-user"></i> Suraj Nahak</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content">
+        <div class="container" style="max-width: 800px;" id="detail-body">
+            <img src="uploads/blog_images/demo-automating-repetitive-work-with-small-py.png" alt="Automating repetitive work with small Python tools" style="width:100%; border-radius:12px; margin-bottom:2rem;">
+            <div class="blog-tags" style="margin-bottom:2rem;">
+                <span class="blog-tag">Automation</span><span class="blog-tag">Python</span><span class="blog-tag">Tools</span>
+            </div>
+            <article class="blog-detail-body"><p>Some of the code I'm happiest with isn't a model or a system. It's a 40-line script that renames files, or one that pulls a report every Monday so nobody has to do it by hand. They're not impressive, but they get used every week.</p><h2>When is it worth automating?</h2><p>My rough rule: if I've done the same manual task three times and expect to do it again, I write a script. The first time I'm still learning what the task actually is. By the third, I know the steps well enough to write them down, and writing them down in Python isn't much more work than writing them in a document.</p><p>The other signal is when a task is easy to get slightly wrong. Copying numbers between spreadsheets, renaming hundreds of files, cleaning the same columns every export. People make small mistakes on tedious work. Scripts don't get bored.</p><h2>A shape that works for almost everything</h2><p>Most of my small tools look like this: take a folder or file as input, process each item, print what changed. The one feature I always add is <code>--dry-run</code>, which shows what <em>would</em> happen without touching anything.</p><pre><code>import argparse
+from pathlib import Path
+
+def main():
+    parser = argparse.ArgumentParser(description=&quot;Tidy up exported report files.&quot;)
+    parser.add_argument(&quot;folder&quot;, type=Path)
+    parser.add_argument(&quot;--dry-run&quot;, action=&quot;store_true&quot;)
+    args = parser.parse_args()
+
+    for path in sorted(args.folder.glob(&quot;*.csv&quot;)):
+        new_name = path.name.lower().replace(&quot; &quot;, &quot;_&quot;)
+        if new_name == path.name:
+            continue
+        print(f&quot;{path.name}  -&gt;  {new_name}&quot;)
+        if not args.dry_run:
+            path.rename(path.with_name(new_name))
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre><p>The dry run is what makes me (and anyone else) actually trust the script. You run it once, read the output, and only then let it change things.</p><h2>Things I've learned the hard way</h2><ul><li><strong>Never overwrite the original.</strong> Write to a new folder, or keep a backup. Undo isn't free in a script.</li><li><strong>Make it safe to run twice.</strong> If it crashes halfway, running it again should just finish the job, not double everything.</li><li><strong>Print what you did.</strong> A silent script that "worked" is hard to trust.</li><li><strong>Put a usage example at the top.</strong> In six months you won't remember the arguments.</li></ul><h2>Don't over-build it</h2><p>It's tempting to turn a useful script into a proper tool with a config system, plugins and a GUI. Usually that's a mistake. The value was in it being small and quick to change. I only add structure when the script actually needs it, for example when other people start relying on it.</p><p>If there's a task you dread every week, it's probably a good candidate. Start with the dry run.</p></article>
+            <div style="margin-top:3rem;">
+                <a href="blogs.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Blogs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content" style="background: var(--light);" id="related-section">
+        <div class="container">
+            <h2 style="margin-bottom:2rem;">More Articles</h2>
+            <div class="blog-grid" id="related-list">
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Machine Learning</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-choosing-a-baseline-before-you-train-any.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> October 12, 2026</div>
+                    <h3 class="blog-title"><a href="blog/choosing-a-baseline.html" style="color:inherit; text-decoration:none;">Choosing a baseline before you train anything</a></h3>
+                    <p class="blog-excerpt">Before I write a single line of model code, I want to know what number I&#39;m trying to beat. Here&#39;s why, and how I pick it.</p>
+                    <a href="blog/choosing-a-baseline.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Machine Learning</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-why-your-validation-score-lies-data-leak.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 24, 2026</div>
+                    <h3 class="blog-title"><a href="blog/data-leakage-validation.html" style="color:inherit; text-decoration:none;">Why your validation score lies: data leakage</a></h3>
+                    <p class="blog-excerpt">The scariest bugs in ML don&#39;t crash anything. They just make your validation score look better than it should. Some leaks I&#39;ve learned to check for.</p>
+                    <a href="blog/data-leakage-validation.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Algorithms</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-dynamic-programming-without-the-fear.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 15, 2026</div>
+                    <h3 class="blog-title"><a href="blog/dynamic-programming-explained.html" style="color:inherit; text-decoration:none;">Dynamic programming without the fear</a></h3>
+                    <p class="blog-excerpt">Dynamic programming has a reputation for being hard. Most of the difficulty goes away once you write the slow recursive version first.</p>
+                    <a href="blog/dynamic-programming-explained.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer: filled in by js/site.js -->
+    <footer></footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

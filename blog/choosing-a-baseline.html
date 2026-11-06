@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO:START (made by tools/build.js, edit there) -->
+    <title>Choosing a baseline before you train anything | Suraj Nahak</title>
+    <meta name="description" content="Before I write a single line of model code, I want to know what number I&#39;m trying to beat. Here&#39;s why, and how I pick it.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Suraj Nahak">
+    <link rel="canonical" href="https://surajnahak.in/blog/choosing-a-baseline.html">
+    <meta property="og:site_name" content="Suraj Nahak">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Choosing a baseline before you train anything | Suraj Nahak">
+    <meta property="og:description" content="Before I write a single line of model code, I want to know what number I&#39;m trying to beat. Here&#39;s why, and how I pick it.">
+    <meta property="og:url" content="https://surajnahak.in/blog/choosing-a-baseline.html">
+    <meta property="og:image" content="https://surajnahak.in/uploads/blog_images/demo-choosing-a-baseline-before-you-train-any.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Choosing a baseline before you train anything | Suraj Nahak">
+    <meta name="twitter:description" content="Before I write a single line of model code, I want to know what number I&#39;m trying to beat. Here&#39;s why, and how I pick it.">
+    <meta name="twitter:image" content="https://surajnahak.in/uploads/blog_images/demo-choosing-a-baseline-before-you-train-any.png">
+    <meta property="article:published_time" content="2026-10-12">
+    <meta property="article:tag" content="Baselines">
+    <meta property="article:tag" content="Evaluation">
+    <meta property="article:tag" content="ML">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Choosing a baseline before you train anything","description":"Before I write a single line of model code, I want to know what number I'm trying to beat. Here's why, and how I pick it.","datePublished":"2026-10-12","dateModified":"2026-10-12","url":"https://surajnahak.in/blog/choosing-a-baseline.html","mainEntityOfPage":"https://surajnahak.in/blog/choosing-a-baseline.html","image":"https://surajnahak.in/uploads/blog_images/demo-choosing-a-baseline-before-you-train-any.png","articleSection":"Machine Learning","keywords":"Baselines, Evaluation, ML","wordCount":427,"author":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"},"publisher":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"}}</script>
+    <!-- SEO:END -->
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/blogs.css">
+    <!-- Site theme: loaded after the page stylesheet on every page so it wins -->
+    <link rel="stylesheet" href="css/theme-dark.css">
+</head>
+
+<body data-page="article">
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Suraj<span>Nahak</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#hero" class="nav-link">Home</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                    <li><a href="blogs.html" class="nav-link active">Blogs</a></li>
+                    <li><a href="research.html" class="nav-link">Research</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="close-menu-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="blog-hero">
+        <div class="container">
+            <div class="hero-content" id="detail-hero">
+                <span class="blog-category">Machine Learning</span>
+                <h1>Choosing a baseline before you train anything</h1>
+                <p><i class="far fa-calendar"></i> <time datetime="2026-10-12">October 12, 2026</time>
+                    &nbsp;&nbsp;
+                    <i class="fas fa-user"></i> Suraj Nahak</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content">
+        <div class="container" style="max-width: 800px;" id="detail-body">
+            <img src="uploads/blog_images/demo-choosing-a-baseline-before-you-train-any.png" alt="Choosing a baseline before you train anything" style="width:100%; border-radius:12px; margin-bottom:2rem;">
+            <div class="blog-tags" style="margin-bottom:2rem;">
+                <span class="blog-tag">Baselines</span><span class="blog-tag">Evaluation</span><span class="blog-tag">ML</span>
+            </div>
+            <article class="blog-detail-body"><p>I used to start projects the fun way: open a notebook, load the data, and go straight for the interesting model. A week later I'd have an F1 of 0.81 and no idea whether that was good. Was the problem easy? Was 0.81 what you'd get by guessing? I couldn't say, because I'd never checked.</p><p>These days the first thing I build is the most boring model I can think of. It takes ten minutes and it changes how I read every result after it.</p><h2>Start embarrassingly simple</h2><p>For classification, my first baseline is "always predict the most common class". For regression, it's "always predict the mean". It sounds pointless, but it tells you the floor. If 92% of your labels are the same class, 92% accuracy is not an achievement. It's the starting line.</p><pre><code>from sklearn.dummy import DummyClassifier
+
+baseline = DummyClassifier(strategy=&quot;most_frequent&quot;)
+baseline.fit(X_train, y_train)
+print(&quot;floor:&quot;, baseline.score(X_test, y_test))</code></pre><p>After that I add one step up: a logistic regression or a small gradient-boosted tree with default settings. No tuning, no feature engineering beyond what's needed to make it run. This is the number a fancier model has to clearly beat to be worth the extra complexity.</p><h2>Decide the metric before you look at results</h2><p>This one took me a while to learn. If you pick the metric after seeing the numbers, you'll pick whichever one makes your model look best, without even meaning to. So I write it down first, usually in the README: "We care about recall on the positive class at 90% precision." Once it's written down, I'm much less likely to quietly move the goalposts later.</p><h2>Keep the baseline in every table</h2><p>Every results table I share has the baseline as its first row. It's a small habit, but it stops conversations like "the new model gets 0.84!" from going anywhere until someone asks "compared to what?"</p><p>It also catches bugs. More than once, a model that looked great turned out to barely beat the dummy, and that's what made me go looking for the leak in the pipeline.</p><h2>When the baseline wins</h2><p>Sometimes the simple model is good enough. That's not a failure. A logistic regression that's 2% worse but trains in seconds, is easy to explain, and never surprises anyone in production is often the right thing to ship. Having the baseline there is what lets you make that call on purpose instead of by accident.</p><p>So: dumb model first, metric written down, baseline in every table. It's not glamorous, but it's saved me more time than any clever trick.</p></article>
+            <div style="margin-top:3rem;">
+                <a href="blogs.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Blogs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content" style="background: var(--light);" id="related-section">
+        <div class="container">
+            <h2 style="margin-bottom:2rem;">More Articles</h2>
+            <div class="blog-grid" id="related-list">
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Machine Learning</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-why-your-validation-score-lies-data-leak.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 24, 2026</div>
+                    <h3 class="blog-title"><a href="blog/data-leakage-validation.html" style="color:inherit; text-decoration:none;">Why your validation score lies: data leakage</a></h3>
+                    <p class="blog-excerpt">The scariest bugs in ML don&#39;t crash anything. They just make your validation score look better than it should. Some leaks I&#39;ve learned to check for.</p>
+                    <a href="blog/data-leakage-validation.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Algorithms</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-dynamic-programming-without-the-fear.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 15, 2026</div>
+                    <h3 class="blog-title"><a href="blog/dynamic-programming-explained.html" style="color:inherit; text-decoration:none;">Dynamic programming without the fear</a></h3>
+                    <p class="blog-excerpt">Dynamic programming has a reputation for being hard. Most of the difficulty goes away once you write the slow recursive version first.</p>
+                    <a href="blog/dynamic-programming-explained.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">MLOps</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-from-notebook-to-service-packaging-a-mod.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 06, 2026</div>
+                    <h3 class="blog-title"><a href="blog/notebook-to-production-model-service.html" style="color:inherit; text-decoration:none;">From notebook to service: packaging a model</a></h3>
+                    <p class="blog-excerpt">A model that only runs in your notebook isn&#39;t finished. This is the minimum I do to turn one into something other people can actually call.</p>
+                    <a href="blog/notebook-to-production-model-service.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer: filled in by js/site.js -->
+    <footer></footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

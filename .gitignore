@@ -1,0 +1,44 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Editor / IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code local settings
+.claude/
+
+# Python (from running `python -m http.server`)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node (in case tools are added later)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+tmp/
+temp/
+
+# Secrets / environment files
+.env
+.env.*
+
+# Deploy tool caches
+.wrangler/
+.netlify/
+.vercel/

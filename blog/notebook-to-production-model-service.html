@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO:START (made by tools/build.js, edit there) -->
+    <title>From notebook to service: packaging a model | Suraj Nahak</title>
+    <meta name="description" content="A model that only runs in your notebook isn&#39;t finished. This is the minimum I do to turn one into something other people can actually call.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Suraj Nahak">
+    <link rel="canonical" href="https://surajnahak.in/blog/notebook-to-production-model-service.html">
+    <meta property="og:site_name" content="Suraj Nahak">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="From notebook to service: packaging a model | Suraj Nahak">
+    <meta property="og:description" content="A model that only runs in your notebook isn&#39;t finished. This is the minimum I do to turn one into something other people can actually call.">
+    <meta property="og:url" content="https://surajnahak.in/blog/notebook-to-production-model-service.html">
+    <meta property="og:image" content="https://surajnahak.in/uploads/blog_images/demo-from-notebook-to-service-packaging-a-mod.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="From notebook to service: packaging a model | Suraj Nahak">
+    <meta name="twitter:description" content="A model that only runs in your notebook isn&#39;t finished. This is the minimum I do to turn one into something other people can actually call.">
+    <meta name="twitter:image" content="https://surajnahak.in/uploads/blog_images/demo-from-notebook-to-service-packaging-a-mod.png">
+    <meta property="article:published_time" content="2026-09-06">
+    <meta property="article:tag" content="MLOps">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Deployment">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"From notebook to service: packaging a model","description":"A model that only runs in your notebook isn't finished. This is the minimum I do to turn one into something other people can actually call.","datePublished":"2026-09-06","dateModified":"2026-09-06","url":"https://surajnahak.in/blog/notebook-to-production-model-service.html","mainEntityOfPage":"https://surajnahak.in/blog/notebook-to-production-model-service.html","image":"https://surajnahak.in/uploads/blog_images/demo-from-notebook-to-service-packaging-a-mod.png","articleSection":"MLOps","keywords":"MLOps, Docker, Deployment","wordCount":468,"author":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"},"publisher":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"}}</script>
+    <!-- SEO:END -->
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/blogs.css">
+    <!-- Site theme: loaded after the page stylesheet on every page so it wins -->
+    <link rel="stylesheet" href="css/theme-dark.css">
+</head>
+
+<body data-page="article">
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Suraj<span>Nahak</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#hero" class="nav-link">Home</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                    <li><a href="blogs.html" class="nav-link active">Blogs</a></li>
+                    <li><a href="research.html" class="nav-link">Research</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="close-menu-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="blog-hero">
+        <div class="container">
+            <div class="hero-content" id="detail-hero">
+                <span class="blog-category">MLOps</span>
+                <h1>From notebook to service: packaging a model</h1>
+                <p><i class="far fa-calendar"></i> <time datetime="2026-09-06">September 06, 2026</time>
+                    &nbsp;&nbsp;
+                    <i class="fas fa-user"></i> Suraj Nahak</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content">
+        <div class="container" style="max-width: 800px;" id="detail-body">
+            <img src="uploads/blog_images/demo-from-notebook-to-service-packaging-a-mod.png" alt="From notebook to service: packaging a model" style="width:100%; border-radius:12px; margin-bottom:2rem;">
+            <div class="blog-tags" style="margin-bottom:2rem;">
+                <span class="blog-tag">MLOps</span><span class="blog-tag">Docker</span><span class="blog-tag">Deployment</span>
+            </div>
+            <article class="blog-detail-body"><p>Every ML project I've worked on hits the same point: the model works in the notebook, and someone asks "great, how do we use it?" The honest answer is usually "you'd have to run my notebook, in my environment, with the cells in the right order."</p><p>This post covers the minimum I do now to get from that point to a small service someone else can run. Nothing fancy, just the parts that tend to get skipped.</p><h2>Get the logic out of the notebook</h2><p>First, I move the preprocessing and prediction code into a plain Python module. The notebook is fine for exploring, but it hides state: a variable defined in a cell you deleted, or a cell that was run twice. A module run from a clean start can't hide anything.</p><p>The most important part is to save the preprocessing <em>with</em> the model. If the scaler or encoder lives in a separate step, sooner or later someone will use the wrong one.</p><pre><code>import joblib
+from sklearn.pipeline import make_pipeline
+
+pipeline = make_pipeline(preprocessor, model)
+pipeline.fit(X_train, y_train)
+joblib.dump(pipeline, &quot;model.joblib&quot;)</code></pre><h2>Wrap it in a tiny API</h2><p>I usually reach for FastAPI because it validates the input for me. If a request is missing a field, the caller gets a clear error instead of a confusing stack trace from deep inside scikit-learn.</p><pre><code>from fastapi import FastAPI
+from pydantic import BaseModel
+import joblib
+
+app = FastAPI()
+pipeline = joblib.load(&quot;model.joblib&quot;)  # load once at startup, not per request
+MODEL_VERSION = &quot;2026-09-01&quot;
+
+class Features(BaseModel):
+    age: int
+    plan: str
+    monthly_usage: float
+
+@app.post(&quot;/predict&quot;)
+def predict(f: Features):
+    row = [[f.age, f.plan, f.monthly_usage]]
+    score = float(pipeline.predict_proba(row)[0, 1])
+    return {&quot;score&quot;: score, &quot;model_version&quot;: MODEL_VERSION}</code></pre><p>Returning the model version with every prediction seems minor, but it's the first thing you want when someone reports a strange result two months later.</p><h2>Put it in a container</h2><p>A Dockerfile pins the Python version and dependencies, so "works on my machine" becomes "works on any machine with Docker".</p><pre><code>FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+CMD [&quot;uvicorn&quot;, &quot;service:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]</code></pre><p>Pin exact versions in <code>requirements.txt</code>, especially scikit-learn. A model pickled with one version is not guaranteed to load correctly in another.</p><h2>A short checklist before calling it done</h2><ul><li>Can someone build and run it from the README alone?</li><li>Is there a <code>/health</code> endpoint for whatever runs the container?</li><li>Does one test send a real example through the API and check the response shape?</li><li>Are predictions logged somewhere, so you can monitor them later?</li></ul><p>None of this is hard, but it's the difference between a model and a product. A model that people can actually call is usually more valuable than a slightly better one stuck in a notebook.</p></article>
+            <div style="margin-top:3rem;">
+                <a href="blogs.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Blogs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content" style="background: var(--light);" id="related-section">
+        <div class="container">
+            <h2 style="margin-bottom:2rem;">More Articles</h2>
+            <div class="blog-grid" id="related-list">
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Machine Learning</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-choosing-a-baseline-before-you-train-any.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> October 12, 2026</div>
+                    <h3 class="blog-title"><a href="blog/choosing-a-baseline.html" style="color:inherit; text-decoration:none;">Choosing a baseline before you train anything</a></h3>
+                    <p class="blog-excerpt">Before I write a single line of model code, I want to know what number I&#39;m trying to beat. Here&#39;s why, and how I pick it.</p>
+                    <a href="blog/choosing-a-baseline.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Machine Learning</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-why-your-validation-score-lies-data-leak.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 24, 2026</div>
+                    <h3 class="blog-title"><a href="blog/data-leakage-validation.html" style="color:inherit; text-decoration:none;">Why your validation score lies: data leakage</a></h3>
+                    <p class="blog-excerpt">The scariest bugs in ML don&#39;t crash anything. They just make your validation score look better than it should. Some leaks I&#39;ve learned to check for.</p>
+                    <a href="blog/data-leakage-validation.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Algorithms</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-dynamic-programming-without-the-fear.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 15, 2026</div>
+                    <h3 class="blog-title"><a href="blog/dynamic-programming-explained.html" style="color:inherit; text-decoration:none;">Dynamic programming without the fear</a></h3>
+                    <p class="blog-excerpt">Dynamic programming has a reputation for being hard. Most of the difficulty goes away once you write the slow recursive version first.</p>
+                    <a href="blog/dynamic-programming-explained.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer: filled in by js/site.js -->
+    <footer></footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

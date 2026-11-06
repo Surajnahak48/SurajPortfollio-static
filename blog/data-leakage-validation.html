@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO:START (made by tools/build.js, edit there) -->
+    <title>Why your validation score lies: data leakage | Suraj Nahak</title>
+    <meta name="description" content="The scariest bugs in ML don&#39;t crash anything. They just make your validation score look better than it should. Some leaks I&#39;ve learned to check for.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Suraj Nahak">
+    <link rel="canonical" href="https://surajnahak.in/blog/data-leakage-validation.html">
+    <meta property="og:site_name" content="Suraj Nahak">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Why your validation score lies: data leakage | Suraj Nahak">
+    <meta property="og:description" content="The scariest bugs in ML don&#39;t crash anything. They just make your validation score look better than it should. Some leaks I&#39;ve learned to check for.">
+    <meta property="og:url" content="https://surajnahak.in/blog/data-leakage-validation.html">
+    <meta property="og:image" content="https://surajnahak.in/uploads/blog_images/demo-why-your-validation-score-lies-data-leak.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Why your validation score lies: data leakage | Suraj Nahak">
+    <meta name="twitter:description" content="The scariest bugs in ML don&#39;t crash anything. They just make your validation score look better than it should. Some leaks I&#39;ve learned to check for.">
+    <meta name="twitter:image" content="https://surajnahak.in/uploads/blog_images/demo-why-your-validation-score-lies-data-leak.png">
+    <meta property="article:published_time" content="2026-09-24">
+    <meta property="article:tag" content="Data Leakage">
+    <meta property="article:tag" content="Validation">
+    <meta property="article:tag" content="Pitfalls">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Why your validation score lies: data leakage","description":"The scariest bugs in ML don't crash anything. They just make your validation score look better than it should. Some leaks I've learned to check for.","datePublished":"2026-09-24","dateModified":"2026-09-24","url":"https://surajnahak.in/blog/data-leakage-validation.html","mainEntityOfPage":"https://surajnahak.in/blog/data-leakage-validation.html","image":"https://surajnahak.in/uploads/blog_images/demo-why-your-validation-score-lies-data-leak.png","articleSection":"Machine Learning","keywords":"Data Leakage, Validation, Pitfalls","wordCount":444,"author":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"},"publisher":{"@type":"Person","name":"Suraj Nahak","url":"https://surajnahak.in/"}}</script>
+    <!-- SEO:END -->
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/blogs.css">
+    <!-- Site theme: loaded after the page stylesheet on every page so it wins -->
+    <link rel="stylesheet" href="css/theme-dark.css">
+</head>
+
+<body data-page="article">
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Suraj<span>Nahak</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#hero" class="nav-link">Home</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                    <li><a href="blogs.html" class="nav-link active">Blogs</a></li>
+                    <li><a href="research.html" class="nav-link">Research</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="close-menu-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="blog-hero">
+        <div class="container">
+            <div class="hero-content" id="detail-hero">
+                <span class="blog-category">Machine Learning</span>
+                <h1>Why your validation score lies: data leakage</h1>
+                <p><i class="far fa-calendar"></i> <time datetime="2026-09-24">September 24, 2026</time>
+                    &nbsp;&nbsp;
+                    <i class="fas fa-user"></i> Suraj Nahak</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content">
+        <div class="container" style="max-width: 800px;" id="detail-body">
+            <img src="uploads/blog_images/demo-why-your-validation-score-lies-data-leak.png" alt="Why your validation score lies: data leakage" style="width:100%; border-radius:12px; margin-bottom:2rem;">
+            <div class="blog-tags" style="margin-bottom:2rem;">
+                <span class="blog-tag">Data Leakage</span><span class="blog-tag">Validation</span><span class="blog-tag">Pitfalls</span>
+            </div>
+            <article class="blog-detail-body"><p>A validation score that's too good should worry you more than one that's too low. A bad score at least tells you something honest. A suspiciously high one usually means information from the test set has leaked into training somewhere, and the model is getting credit for an answer it already saw.</p><p>Here are the leaks I check for now, roughly in the order I've been bitten by them.</p><h2>1. Preprocessing before the split</h2><p>This is the classic one. You scale or impute the whole dataset, then split it. The mean and standard deviation you used were partly computed from the test rows, so the test set isn't really unseen anymore.</p><p>The fix is to put every preprocessing step inside a pipeline, so it's fit on the training fold only:</p><pre><code>from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+
+model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
+scores = cross_val_score(model, X, y, cv=5)</code></pre><h2>2. The same person (or patient, or device) on both sides</h2><p>If your data has several rows per user, a random split will happily put some of a user's rows in train and the rest in test. The model learns to recognise the user, not the pattern. Scores look great, then real users show up and it falls apart.</p><p>Use a grouped split, and add a quick test so it can't silently regress:</p><pre><code>from sklearn.model_selection import GroupKFold
+
+cv = GroupKFold(n_splits=5)
+for train_idx, test_idx in cv.split(X, y, groups=df[&quot;user_id&quot;]):
+    overlap = set(df.user_id.iloc[train_idx]) &amp; set(df.user_id.iloc[test_idx])
+    assert not overlap</code></pre><h2>3. Features from the future</h2><p>This is the hardest one to spot. A column like <code>days_until_churn</code> or <code>final_status</code> obviously knows the answer. But it's often subtler: a "last updated" timestamp that only changes after the event, or an aggregate computed over the whole history including dates after the prediction point.</p><p>My rule: for every feature, ask "would I actually have this value at the moment I need to make the prediction?" If the answer is "not quite", it goes.</p><h2>4. Time series split randomly</h2><p>If the data has a time order, shuffle-and-split lets the model train on Tuesday and get tested on Monday. Always split by time: train on the past, validate on what comes after.</p><h2>A quick sanity check</h2><p>When a score surprises me, I train a model to predict whether a row came from train or test. If it can tell them apart easily, something about the split is off. And if one feature is doing all the work in the real model, I look at that feature very closely before celebrating.</p><p>None of these leaks throw errors. That's the whole problem. You only catch them if you go looking.</p></article>
+            <div style="margin-top:3rem;">
+                <a href="blogs.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Blogs</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content" style="background: var(--light);" id="related-section">
+        <div class="container">
+            <h2 style="margin-bottom:2rem;">More Articles</h2>
+            <div class="blog-grid" id="related-list">
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Machine Learning</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-choosing-a-baseline-before-you-train-any.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> October 12, 2026</div>
+                    <h3 class="blog-title"><a href="blog/choosing-a-baseline.html" style="color:inherit; text-decoration:none;">Choosing a baseline before you train anything</a></h3>
+                    <p class="blog-excerpt">Before I write a single line of model code, I want to know what number I&#39;m trying to beat. Here&#39;s why, and how I pick it.</p>
+                    <a href="blog/choosing-a-baseline.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">Algorithms</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-dynamic-programming-without-the-fear.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 15, 2026</div>
+                    <h3 class="blog-title"><a href="blog/dynamic-programming-explained.html" style="color:inherit; text-decoration:none;">Dynamic programming without the fear</a></h3>
+                    <p class="blog-excerpt">Dynamic programming has a reputation for being hard. Most of the difficulty goes away once you write the slow recursive version first.</p>
+                    <a href="blog/dynamic-programming-explained.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-header">
+                    <span class="blog-category">MLOps</span>
+                    <div class="blog-image" style="background-image: url('uploads/blog_images/demo-from-notebook-to-service-packaging-a-mod.png')"></div>
+                </div>
+                <div class="blog-body">
+                    <div class="blog-date"><i class="far fa-calendar"></i> September 06, 2026</div>
+                    <h3 class="blog-title"><a href="blog/notebook-to-production-model-service.html" style="color:inherit; text-decoration:none;">From notebook to service: packaging a model</a></h3>
+                    <p class="blog-excerpt">A model that only runs in your notebook isn&#39;t finished. This is the minimum I do to turn one into something other people can actually call.</p>
+                    <a href="blog/notebook-to-production-model-service.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer: filled in by js/site.js -->
+    <footer></footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

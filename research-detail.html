@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO:START (made by tools/build.js, edit there) -->
+    <title>Research | Suraj Nahak</title>
+    <meta name="robots" content="noindex, follow">
+    <!-- SEO:END -->
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/blogs.css">
+    <!-- Site theme: loaded after the page stylesheet on every page so it wins -->
+    <link rel="stylesheet" href="css/theme-dark.css">
+</head>
+
+<body data-page="research-detail">
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Suraj<span>Nahak</span></a>
+            <nav>
+                <ul>
+                    <li><a href="index.html#hero" class="nav-link">Home</a></li>
+                    <li><a href="index.html#about" class="nav-link">About</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                    <li><a href="blogs.html" class="nav-link">Blogs</a></li>
+                    <li><a href="research.html" class="nav-link active">Research</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="close-menu-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </header>
+
+    <section class="blog-hero">
+        <div class="container">
+            <div class="hero-content" id="detail-hero"></div>
+        </div>
+    </section>
+
+    <section class="blog-content">
+        <div class="container" style="max-width: 800px;" id="detail-body"></div>
+    </section>
+
+    <section class="blog-content" style="background: var(--light);" id="related-section" hidden>
+        <div class="container">
+            <h2 style="margin-bottom:2rem;">More Ideas</h2>
+            <div class="blog-grid" id="related-list"></div>
+        </div>
+    </section>
+
+    <!-- Footer: filled in by js/site.js -->
+    <footer></footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
